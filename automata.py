@@ -109,10 +109,6 @@ def gerar_grafico(automato, nome="automato"):
                 label = letra if letra else "ε"  # Mostra ε para transições vazias
                 dot.edge(origem, destino, label=label)
 
-    # Adiciona um nó especial para o estado inicial
-    dot.node("start", shape="point")
-    dot.edge("start", automato["estado_inicial"])
-
     # Renderiza e salva o gráfico
     dot.render(nome, cleanup=True)
     print(f"Gráfico gerado: {nome}.png")
