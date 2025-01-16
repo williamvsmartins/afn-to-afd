@@ -68,3 +68,38 @@ def afn_para_afd( automato ):
                 adicionarTransicao( afd, estado_atual, letra, "" )
     
     return afd
+
+def printFuncaoPrograma( automato ):
+    for origem, transicoes in automato[ "função_programa" ].items():
+        for letra, destinos in transicoes.items():
+            for destino in destinos:
+                print( f"{origem} --: {letra} :--> {destino}" )
+
+def printAutomato( automato ):
+    matriz = list()
+
+    linha = [ "--" ]
+    
+    matriz.append( linha )
+
+    for estado in automato[ "função_programa" ]:
+        linha = []
+        linha.append( estado )
+        for letra in sorted( automato[ "função_programa" ][ estado ] ):
+            if letra not in matriz[ 0 ]:
+                matriz[ 0 ].append( letra )
+            linha.append( ",".join( sorted( automato["função_programa"][ estado ][ letra ] ) ) )
+        matriz.append( linha )
+    
+    for row in matriz:
+        for col in range( len( row ) ):
+            if row[ col ] == "":
+                row[ col ] = " "
+        row[ 0 ] = f"| { row[ 0 ] }"
+        row[ -1 ] = f"{ row[ -1 ] } |"
+    
+    s = [ [ str( e ).center( 3 ) for e in row ] for row in matriz ]
+    lens = [ max( map( len, col ) ) for col in zip( *s ) ]
+    fmt = "\t".join( "{{:{}}}".format( x ) for x in lens )
+    table = [ fmt.format( *row ) for row in s ]
+    print( "\n".join( table ) )
