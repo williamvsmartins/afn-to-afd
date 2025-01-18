@@ -1,4 +1,5 @@
 import sys
+import os
 from graphviz import Digraph
 
 # Função para adicionar transições ao autômato
@@ -93,6 +94,16 @@ def print_funcao_programa(automato):
 
 # Função para gerar um gráfico visual do autômato utilizando Graphviz
 def gerar_grafico(automato, nome="automato"):
+    # Define o diretório de saída como 'assets'
+    diretorio = "assets"
+    
+    # Cria o diretório 'assets' se não existir
+    if not os.path.exists(diretorio):
+        os.makedirs(diretorio)
+    
+    # Define o caminho completo para o arquivo
+    caminho_completo = os.path.join(diretorio, nome)
+    
     dot = Digraph(comment="Automato", format="png")
 
     # Adiciona os estados ao gráfico
@@ -109,6 +120,7 @@ def gerar_grafico(automato, nome="automato"):
                 label = letra if letra else "ε"  # Mostra ε para transições vazias
                 dot.edge(origem, destino, label=label)
 
-    # Renderiza e salva o gráfico
-    dot.render(nome, cleanup=True)
-    print(f"Gráfico gerado: {nome}.png")
+    # Renderiza e salva o gráfico no diretório especificado
+    dot.render(caminho_completo, cleanup=True)
+    print(f"Gráfico gerado: {caminho_completo}.png")
+
